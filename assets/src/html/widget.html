@@ -1,30 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <!-- Metadata -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Page Title</title>
-
-  <!-- Google Fonts -->
+  <title>Variables Explained</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,400;1,600&display=swap"
-    rel="stylesheet">
-
-  <!-- CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/widget-page.css">
+  <style>
+    .create-variable-widget { background-color: var(--neutral-0); border: var(--border-width) solid var(--neutral-200); border-radius: var(--border-radius); padding: 1.5em; }
+    .variable-input-group { display: flex; flex-direction: column; gap: 1em; }
+    .variable-input-row { display: flex; gap: 0.5em; align-items: center; flex-wrap: nowrap; }
+    .variable-label { font-weight: 600; color: var(--neutral-700); min-width: 80px; }
+    .equals-sign { margin: 0 0.5em; color: var(--neutral-600); }
+    .variable-name-input, .variable-value-input, .variable-dropdown { border: var(--border-width) solid var(--neutral-300); border-radius: var(--border-radius-small); padding: 0.5em; font-family: 'Poppins', sans-serif; }
+    .variable-name-input, .variable-value-input { flex: 1; }
+    .variable-dropdown { flex: 0 0 auto; min-width: 70px; }
+    .variable-name-input:focus, .variable-value-input:focus, .variable-dropdown:focus { outline: 2px solid var(--primary); }
+    .variable-display-container { background-color: var(--purple-50); border: var(--border-width) solid var(--purple-300); border-radius: var(--border-radius); padding: 1em; margin-top: 1.5em; }
+    .display-title { font-weight: 600; margin-bottom: 0.5em; color: var(--purple-700); }
+    .variable-display-item { font-family: 'Courier New', monospace; font-size: 1.2em; color: var(--neutral-600); margin: 0.5em 0; transition: all 0.3s ease; }
+    .variable-display-item.active { background-color: var(--green-100); color: var(--green-700); font-weight: 600; }
+    .success-message { margin-top: 1em; padding: 0.75em; background-color: var(--green-50); border: var(--border-width) solid var(--green-300); border-radius: var(--border-radius); color: var(--green-700); font-weight: 600; text-align: center; display: none; }
+    .success-message.show { display: block; animation: fadeIn 0.5s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
 </head>
-
 <body>
-  <script type="module">
-    import { WidgetPage } from "../js/WidgetPage.js";
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const widgetPage = new WidgetPage("widget-page-template", document.body);
-    });
+  <div class="column column-md">
+    <section>
+      <div class="text">
+        <h1>Variables explained</h1>
+        <p>Think of a variable as a bucket that holds a value like a number or word. Examples:</p>
+        <ul>
+          <li><em>X</em> = 5</li>
+          <li><em>Y</em> = 3</li>
+          <li><em>Z</em> = <em>X</em> + <em>Y</em></li>
+          <li><em>first_name</em> = "John"</li>
+        </ul>
+        <p><em>X</em>, <em>Y</em>, <em>Z</em>, and <em>first_name</em> are variables.</p>
+      </div>
+      <button class="button-semantic button-primary button-continue" onclick="revealNext()"><span class="button-text">Continue</span><svg class="button-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 8L14.59 6.59L9 12.17V0H7V12.17L1.42 6.58L0 8L8 16L16 8Z" fill="white" /></svg></button>
+    </section>
+    <section>
+      <div class="text">
+        <h2>Try it out!</h2>
+        <p>Create two variables below. Give each one a name and assign it a number value! Then, you can use the variables in the result variable and apply math to it.</p>
+      </div>
+      <div class="widget create-variable-widget">
+        <div class="variable-input-group">
+          <div class="variable-input-row">
+            <label class="variable-label">Variable 1:</label><input type="text" class="variable-name-input" placeholder="Name"><span class="equals-sign">=</span><input type="number" class="variable-value-input" placeholder="Number">
+          </div>
+          <div class="variable-input-row">
+            <label class="variable-label">Variable 2:</label><input type="text" class="variable-name-input" placeholder="Name"><span class="equals-sign">=</span><input type="number" class="variable-value-input" placeholder="Number">
+          </div>
+          <div class="variable-input-row">
+            <label class="variable-label">Variable 3:</label><input type="text" class="variable-name-input" value="result" readonly><span class="equals-sign">=</span>
+            <select class="variable-dropdown result-var1"><option value="">Select</option><option value="0">Var 1</option><option value="1">Var 2</option></select>
+            <select class="variable-dropdown result-operator"><option value="+">+</option><option value="-">-</option><option value="*">×</option><option value="/">÷</option></select>
+            <select class="variable-dropdown result-var2"><option value="">Select</option><option value="0">Var 1</option><option value="1">Var 2</option></select>
+          </div>
+        </div>
+        <div class="variable-display-container">
+          <p class="display-title">Your variables:</p>
+          <div class="variable-display-item">? = ?</div><div class="variable-display-item">? = ?</div><div class="variable-display-item result-display">result = ?</div>
+          <div class="success-message">Great job! You've created variables and calculated a result!</div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+    const vars = [{name:'',value:''},{name:'',value:''}];
+    let nameInputs, valueInputs, displays, resultDisplay, r1, r2, op, successMsg;
+    function revealNext() {
+      const sections = document.querySelectorAll('section');
+      for (let i = 0; i < sections.length; i++) {
+        if (sections[i].offsetParent !== null) {
+          if (i + 1 < sections.length) { sections[i + 1].style.display = 'flex'; if (i === 0) initWidget(); }
+          break;
+        }
+      }
+    }
+    function initWidget() {
+      nameInputs = document.querySelectorAll('.variable-name-input');
+      valueInputs = document.querySelectorAll('.variable-value-input');
+      displays = document.querySelectorAll('.variable-display-item:not(.result-display)');
+      resultDisplay = document.querySelector('.result-display');
+      r1 = document.querySelector('.result-var1');
+      r2 = document.querySelector('.result-var2');
+      op = document.querySelector('.result-operator');
+      successMsg = document.querySelector('.success-message');
+      nameInputs.forEach((inp, i) => {
+        if (!inp.readOnly) inp.addEventListener('input', (e) => { vars[i].name = e.target.value.trim(); update(); });
+      });
+      valueInputs.forEach((inp, i) => {
+        inp.addEventListener('input', (e) => { vars[i].value = e.target.value.trim(); update(); });
+      });
+      [r1, r2, op].forEach(el => el?.addEventListener('change', () => update()));
+      update();
+    }
+    function calc() {
+      const v1Idx = r1?.value, v2Idx = r2?.value, operator = op?.value;
+      if (!v1Idx || !v2Idx || !operator) return null;
+      const v1 = parseFloat(vars[v1Idx]?.value), v2 = parseFloat(vars[v2Idx]?.value);
+      if (isNaN(v1) || isNaN(v2)) return null;
+      const ops = {'+': (a,b)=>a+b, '-': (a,b)=>a-b, '*': (a,b)=>a*b, '/': (a,b)=>b!==0?a/b:null};
+      return ops[operator] ? ops[operator](v1, v2) : null;
+    }
+    function update() {
+      [r1, r2].forEach(d => {
+        if (!d) return;
+        const s = d.value;
+        d.innerHTML = '<option value="">Select</option>';
+        vars.forEach((v, i) => {
+          const o = document.createElement('option');
+          o.value = i;
+          o.textContent = v.name || `Var ${i + 1}`;
+          d.appendChild(o);
+        });
+        if (s) d.value = s;
+      });
+      displays.forEach((d, i) => {
+        d.textContent = `${vars[i].name || '?'} = ${vars[i].value || '?'}`;
+        d.classList.toggle('active', vars[i].name && vars[i].value);
+      });
+      if (resultDisplay) {
+        const v1Idx = r1?.value, v2Idx = r2?.value, operator = op?.value;
+        if (v1Idx && v2Idx && operator) {
+          const v1Name = vars[v1Idx]?.name || '?', v2Name = vars[v2Idx]?.name || '?';
+          const opSymbol = {'+':'+', '-':'-', '*':'×', '/':'÷'}[operator] || operator;
+          const result = calc();
+          resultDisplay.textContent = `result = ${v1Name} ${opSymbol} ${v2Name}${result !== null ? ` = ${result}` : ''}`;
+          resultDisplay.classList.toggle('active', result !== null);
+          if (successMsg) successMsg.classList.toggle('show', result !== null && vars[0].name && vars[1].name);
+        } else {
+          resultDisplay.textContent = 'result = ?';
+          resultDisplay.classList.remove('active');
+          if (successMsg) successMsg.classList.remove('show');
+        }
+      }
+    }
   </script>
 </body>
-
 </html>
