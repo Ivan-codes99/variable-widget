@@ -21,9 +21,9 @@
     .variable-display-container { background-color: var(--purple-50); border: var(--border-width) solid var(--purple-300); border-radius: var(--border-radius); padding: 1em; margin-top: 1.5em; }
     .display-title { font-weight: 600; margin-bottom: 0.5em; color: var(--purple-700); }
     .variable-display-item { font-family: 'Courier New', monospace; font-size: 1.2em; color: var(--neutral-600); margin: 0.5em 0; transition: all 0.3s ease; }
-    .variable-display-item.active { background-color: var(--green-100); color: var(--green-700); font-weight: 600; }
+
     .success-message { margin-top: 1em; padding: 0.75em; background-color: var(--green-50); border: var(--border-width) solid var(--green-300); border-radius: var(--border-radius); color: var(--green-700); font-weight: 600; text-align: center; display: none; }
-    .success-message.show { display: block; animation: fadeIn 0.5s ease; }
+    .success-message.show { display: block; animation: fadeIn 300ms ease both; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
@@ -134,7 +134,7 @@
           const result = calc();
           resultDisplay.textContent = `result = ${v1Name} ${opSymbol} ${v2Name}${result !== null ? ` = ${result}` : ''}`;
           resultDisplay.classList.toggle('active', result !== null);
-          if (successMsg) successMsg.classList.toggle('show', result !== null && vars[0].name && vars[1].name);
+          if (successMsg) successMsg.classList.toggle('show', result !== null);
         } else {
           resultDisplay.textContent = 'result = ?';
           resultDisplay.classList.remove('active');
